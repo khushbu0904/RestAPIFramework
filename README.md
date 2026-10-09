@@ -16,7 +16,7 @@ A portfolio-ready API test automation project built with **Java 17, REST Assured
 RestAPIFramework/
 ├── .github/workflows/api-tests.yml
 ├── src/
-│   ├── main/java/com/khushbu/api/client/ApiClient.java
+│   ├── test/java/com/khushbu/api/client/ApiClient.java
 │   └── test/java/com/khushbu/api/tests/PostsApiTest.java
 ├── .gitignore
 ├── pom.xml
