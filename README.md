@@ -1,81 +1,72 @@
 # REST API Automation Framework
 
-A portfolio-ready API test automation project built with **Java 17, REST Assured, TestNG, Maven, and GitHub Actions**. The sample suite targets [JSONPlaceholder](https://jsonplaceholder.typicode.com/), a public fake REST API intended for testing and prototyping.
+This repository contains a simple API test suite written in Java with REST Assured and TestNG. It uses [JSONPlaceholder](https://jsonplaceholder.typicode.com/), a public demo API, so you can try the tests without setting up your own service or configuring credentials.
 
-## Tech stack
+## Tools used
 
 - Java 17
-- REST Assured for HTTP requests and response assertions
-- TestNG for test organization and execution
-- Maven for dependency and build management
-- GitHub Actions for CI on pushes and pull requests
+- REST Assured
+- TestNG
+- Maven
+- GitHub Actions
+
+## What the tests cover
+
+The current suite checks four basic scenarios:
+
+- **Get a post:** checks the status code and a few important response fields.
+- **Filter posts by user:** checks that the API returns posts for the requested user ID.
+- **Create a post:** checks the status code and fields returned by the API.
+- **Missing post:** checks that requesting a post that doesn’t exist returns 404.
+
+JSONPlaceholder is a demo service, so the create-post request returns a simulated response rather than permanently saving a post.
 
 ## Project structure
 
 ```text
 RestAPIFramework/
 ├── .github/workflows/api-tests.yml
-├── src/
-│   ├── test/java/com/khushbu/api/client/ApiClient.java
-│   └── test/java/com/khushbu/api/tests/PostsApiTest.java
-├── .gitignore
+├── src/test/java/com/khushbu/api/
+│   ├── client/ApiClient.java
+│   └── tests/PostsApiTest.java
 ├── pom.xml
+├── .gitignore
 └── README.md
 ```
 
-## Prerequisites
+The shared request setup lives in `ApiClient`. The individual test cases are in `PostsApiTest`.
 
-- JDK 17+
-- Maven 3.9+ (or use an IDE with Maven support)
-- Internet access to reach JSONPlaceholder
+## Running the tests
 
-Check your setup:
+You’ll need JDK 17 or later, Maven, and an internet connection.
 
-```bash
-java -version
-mvn -version
-```
-
-## Run the tests
+Clone the repository:
 
 ```bash
 git clone https://github.com/khushbu0904/RestAPIFramework.git
 cd RestAPIFramework
+```
+
+Run the suite:
+
+```bash
 mvn clean test
 ```
 
-To target another compatible API base URL, pass a system property:
+The default base URL is `https://jsonplaceholder.typicode.com`. You can override it for another compatible test environment:
 
 ```bash
 mvn clean test -DbaseUrl=https://jsonplaceholder.typicode.com
 ```
 
-The default base URL is `https://jsonplaceholder.typicode.com`. The suite does not require credentials or secrets.
+## GitHub Actions
 
-## Current test coverage
+The workflow in `.github/workflows/api-tests.yml` sets up Java 17 and runs the Maven tests on pushes to `main`, pull requests targeting `main`, and manual runs. It also uploads the Surefire reports when they are available.
 
-| Scenario | What is asserted |
-|---|---|
-| Get a post by ID | HTTP 200, expected ID, title and body fields |
-| Filter posts by user | HTTP 200, non-empty array, each returned post belongs to user 1 |
-| Create a post | HTTP 201 and returned title, body and user ID |
-| Request a missing post | HTTP 404 |
+Open the **Actions** tab to check the result of a run.
 
-JSONPlaceholder simulates writes rather than persisting them. The create-post test validates the API's simulated response; it does **not** claim that a post was saved permanently.
+## Possible next steps
 
-## Continuous integration
+Some useful additions would be JSON schema validation, more detailed test reports, and examples for authenticated APIs.
 
-GitHub Actions runs `mvn --batch-mode --no-transfer-progress clean test` on pushes and pull requests to `main`, and supports manual runs. View the **Actions** tab in this repository for the actual workflow result after GitHub runs it.
-
-## Design notes
-
-- `ApiClient` centralizes the base URL and common request specification.
-- Test methods are independent and use response assertions rather than relying on execution order.
-- The base URL can be overridden for a compatible test environment.
-- No credentials, personal data, or external paid service is required.
-
-## Limitations and next improvements
-
-This is a focused starter framework, not a claim of production coverage. Potential next steps include JSON Schema validation, richer reporting, environment-specific configuration, contract testing, and authenticated API examples against a controlled test service.
-
-**Verification note:** A successful commit means the source files were uploaded, not that the Java tests passed. Check the GitHub Actions run for execution evidence; run `mvn clean test` locally to verify in your environment.
+**Test status:** The files are committed to the repository, but the test suite has not been independently run in this session. Check the latest GitHub Actions run for the actual result.
