@@ -13,6 +13,7 @@
     <properties>
         <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <baseUrl>https://jsonplaceholder.typicode.com</baseUrl>
         <rest-assured.version>5.5.0</rest-assured.version>
         <testng.version>7.10.2</testng.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
